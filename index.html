@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Gấu Kể Truyện - Thiên Đường Giải Trí Audio</title>
+    <meta name="description" content="Chào mừng bạn đến với thiên đường giải trí Gấu Kể Truyện – nền tảng chuyên cung cấp truyện hoạt hình & truyện tranh Audio Vietsub chất lượng cao, nội dung hay và mới lạ nhất.">
+    <link rel="icon" href="https://i.postimg.cc/nLY9GKJS/IMG-0721.jpg" type="image/jpeg">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="GauKeTruyen">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/nLY9GKJS/IMG-0721.jpg">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="ambient-background">
+        <div class="color-blob pink-blob"></div>
+        <div class="color-blob purple-blob"></div>
+    </div>
+
+    <div id="adProgressToast" class="ad-progress-toast">
+        <div class="toast-icon"><i class="fa-solid fa-gift"></i></div>
+        <span id="adProgressText">Tiến Độ: 0/3 - Hãy bấm đủ 3 lần để mở bộ phim nhá!</span>
+    </div>
+
+    <div class="modal-overlay active" id="welcomeAlertModal">
+        <div class="modal-box">
+            <div class="icon-circle"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <h3>Chào Mừng!</h3>
+            <p>Chào mừng bạn đến với App GauKeTruyen! Chúng tôi luôn cập nhật phim hay và mới nhất tại đây ạ!</p>
+            <button onclick="closeWelcomeAlert()" class="btn-primary">Vào App Ngay</button>
+        </div>
+    </div>
+
+    <div class="loader-overlay" id="loader">
+        <div class="logo-loader">
+            <img src="https://i.postimg.cc/nLY9GKJS/IMG-0721.jpg" alt="Loading Logo">
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="customModal">
+        <div class="modal-box">
+            <div class="icon-circle" id="modalIconContainer"><i class="fa-solid fa-bell" id="modalIcon"></i></div>
+            <h3 id="modalTitle">Thông báo</h3>
+            <p id="modalMessage">Nội dung thông báo...</p>
+            <button onclick="closeModal()" class="btn-primary">Đã Hiểu</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="menuOverlay"></div>
+
+    <div class="movie-detail-modal" id="movieDetailModal">
+        <div class="movie-detail-box">
+            <button class="close-detail-btn" onclick="closeMovieDetail()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="detail-poster" id="detailPoster"></div>
+            <h2 class="detail-title" id="detailTitle">Tên Phim Đang Cập Nhật</h2>
+            <div class="detail-publisher"><i class="fa-solid fa-crown"></i> Gấu Kể Truyện Official</div>
+            
+            <div class="media-container">
+                <button class="watch-now-btn" id="watchNowBtn">
+                    <i class="fa-solid fa-play"></i> Xem Ngay
+                </button>
+                
+                <div class="custom-audio-player" id="customAudioPlayer" style="display: none;">
+                    <audio id="audioPlayer" preload="auto"></audio>
+                    
+                    <div class="progress-area">
+                        <span id="currentTime">00:00</span>
+                        <input type="range" id="progressBar" value="0" min="0" step="1">
+                        <span id="totalTime">00:00</span>
+                    </div>
+
+                    <div class="controls-area">
+                        <button class="ctrl-btn text-btn" id="speedBtn" title="Tốc độ phát">1.0x</button>
+                        <button class="ctrl-btn" id="rewindBtn" title="Lùi 10 giây"><i class="fa-solid fa-rotate-left"></i></button>
+                        
+                        <button class="play-pause-btn" id="playPauseBtn">
+                            <i class="fa-solid fa-play" id="playIcon"></i>
+                        </button>
+                        
+                        <button class="ctrl-btn" id="forwardBtn" title="Tiến 10 giây"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button class="ctrl-btn" id="muteBtn" title="Tắt/Mở âm thanh"><i class="fa-solid fa-volume-high" id="volumeIcon"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo-container" id="logoBtn">
+            <div class="logo-img-wrapper">
+                <img src="https://i.postimg.cc/nLY9GKJS/IMG-0721.jpg" alt="Gấu Kể Truyện Logo">
+            </div>
+            <h1>Gấu Kể Truyện</h1>
+        </div>
+
+        <div class="right-actions">
+            <div class="action-btn" id="searchBtn" title="Tìm kiếm"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <div class="action-btn" id="menuBtn" title="Menu"><i class="fa-solid fa-bars-staggered"></i></div>
+        </div>
+    </header>
+
+    <nav class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h2>Khám Phá</h2>
+            <div class="close-menu-icon" id="closeMenuBtn" title="Đóng"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+        <div class="side-menu-links">
+            <a href="#" class="nav-link active-link" data-target="home-tab"><i class="fa-solid fa-house-chimney"></i> Trang chủ</a>
+            <a href="#" class="nav-link" data-target="list-tab"><i class="fa-solid fa-layer-group"></i> Kho Truyện</a>
+            <a href="#" class="nav-link" data-target="contact-tab"><i class="fa-solid fa-headset"></i> Liên hệ & Hỗ trợ</a>
+        </div>
+    </nav>
+
+    <div class="search-bar-container" id="searchBar">
+        <div class="search-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Nhập tên truyện bạn muốn tìm...">
+            <button type="button" id="executeSearch">Tìm kiếm</button>
+        </div>
+    </div>
+
+    <div class="chat-bubble" title="Chat với Hỗ trợ viên" onclick="window.open('https://t.me/nhatpham27', '_blank')">
+        <i class="fa-solid fa-comment-dots"></i>
+    </div>
+
+    <main>
+        <div id="home-tab" class="tab-content active">
+            <div class="section-header">
+                <div class="header-line"></div>
+                <h2>Mới Cập Nhật</h2>
+            </div>
+            <div class="movie-grid-container" id="home-movie-grid"></div>
+        </div>
+
+        <div id="list-tab" class="tab-content">
+            <div class="section-header">
+                <div class="header-line"></div>
+                <h2>Kho Truyện Đầy Đủ</h2>
+            </div>
+            <div class="movie-grid-container" id="list-movie-grid"></div>
+            <div class="pagination-container" id="list-pagination"></div>
+        </div>
+
+        <div id="contact-tab" class="tab-content">
+            <div class="contact-page-title">
+                Trung Tâm Trợ Giúp
+            </div>
+            <div class="contact-container">
+                <div class="form-title"><i class="fa-solid fa-paper-plane"></i> Gửi yêu cầu hỗ trợ trực tuyến</div>
+                <input type="text" class="form-input" placeholder="Họ và tên hoặc Username của bạn">
+                <input type="text" class="form-input" placeholder="Email / Số điện thoại liên hệ">
+                
+                <input type="file" id="fileUploadInput" accept="image/*" style="display: none;">
+                <button type="button" class="upload-btn" id="uploadBtnClick">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> 
+                    <span id="uploadText">Tải lên ảnh minh họa (nếu có)</span>
+                </button>
+                
+                <textarea class="form-input form-textarea" placeholder="Mô tả chi tiết vấn đề bạn đang gặp phải..."></textarea>
+                
+                <button type="button" class="submit-btn" id="submitFormBtn" onclick="submitContactForm()">Gửi Tin Nhắn <i class="fa-solid fa-paper-plane"></i></button>
+                
+                <div class="divider"><span>Hoặc</span></div>
+                
+                <div class="contact-cards">
+                    <a href="https://t.me/nhatpham27" target="_blank" class="contact-card card-tele">
+                        <i class="fa-brands fa-telegram"></i> 
+                        <span>Chat Telegram</span>
+                    </a>
+                    <a href="https://zalo.me/84961547842" target="_blank" class="contact-card card-zalo">
+                        <i class="fa-solid fa-comment-sms"></i> 
+                        <span>Chat Zalo</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <div class="footer-logo">
+                    <img src="https://i.postimg.cc/nLY9GKJS/IMG-0721.jpg" alt="Logo">
+                    <h3>GAUKETRUYEN.ONLINE</h3>
+                </div>
+                <p>Nền tảng giải trí Gấu Kể Truyện cung cấp các bộ truyện tranh, hoạt hình Audio chất lượng cao, thuyết minh và Vietsub chuẩn xác nhất. Kho nội dung khổng lồ, giao diện thân thiện, mang đến trải nghiệm tuyệt vời cho mọi lứa tuổi.</p>
+            </div>
+            <div class="footer-links-wrapper">
+                <div class="footer-section links">
+                    <h3><i class="fa-solid fa-link"></i> Trợ Giúp</h3>
+                    <ul>
+                        <li><a href="#"><i class="fa-solid fa-angle-right"></i> Điều khoản chung</a></li>
+                        <li><a href="#"><i class="fa-solid fa-angle-right"></i> Chính sách bảo mật</a></li>
+                        <li><a href="#"><i class="fa-solid fa-angle-right"></i> Sitemap</a></li>
+                        <li><a href="#"><i class="fa-solid fa-angle-right"></i> Phản hồi lỗi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section links">
+                    <h3><i class="fa-solid fa-compass"></i> Khám Phá</h3>
+                    <ul>
+                        <li><a href="#"><i class="fa-solid fa-angle-right"></i> Trang chủ</a></li>
+                        <li><a href="#"><i class="fa-solid fa-angle-right"></i> Giới thiệu về chúng tôi</a></li>
+                        <li><a href="#"><i class="fa-solid fa-angle-right"></i> Câu hỏi thường gặp (FAQ)</a></li>
+                        <li><a href="#"><i class="fa-solid fa-angle-right"></i> Hợp tác & Liên hệ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 GauKeTruyen.online - Nền Tảng Giải Trí Đỉnh Cao. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "Gấu Kể Truyện",
+  "short_name": "GauKeTruyen",
+  "description": "Thiên Đường Giải Trí Audio Truyện Tranh",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fdf2f8",
+  "theme_color": "#fdf2f8",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/nLY9GKJS/IMG-0721.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.postimg.cc/nLY9GKJS/IMG-0721.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
